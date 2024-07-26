@@ -5,7 +5,7 @@ Allows you to open up an empty [Excalidraw](https://github.com/excalidraw/excali
 ## Installing
 
 ```bash
-quarto add parmsam/excalidraw
+quarto add parmsam/quarto-excalidraw
 ```
 
 This will install the extension under the `_extensions` subdirectory.

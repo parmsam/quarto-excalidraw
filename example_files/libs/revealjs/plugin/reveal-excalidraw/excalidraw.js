@@ -61,16 +61,32 @@ window.RevealExcalidraw = function () {
         toggleButton.style.zIndex = '1001'; 
         document.querySelector(".reveal").appendChild(toggleButton);
 
-        link.addEventListener('click', () => {
-          excalidrawContainer.style.display =
-            excalidrawContainer.style.display === 'none' ? 'block' : 'none';
+        link.addEventListener('click', (event) => {
+          event.preventDefault(); // Prevent default link behavior
+          if (excalidrawContainer.style.display === 'none') {
+            currentSlideIndex = deck.getState().indexh;
+            excalidrawContainer.style.display = 'block';
+          } else {
+            excalidrawContainer.style.display = 'none';
+            if (currentSlideIndex !== null) {
+              deck.slide(currentSlideIndex);
+            }
+          }
         });
       }
 
       document.addEventListener('keydown', (event) => {
+        event.preventDefault(); // Prevent default link behavior
         if (event.key === settings.shortcut) {
-          excalidrawContainer.style.display =
-            excalidrawContainer.style.display === 'none' ? 'block' : 'none';
+          if (excalidrawContainer.style.display === 'none') {
+            currentSlideIndex = deck.getState().indexh;
+            excalidrawContainer.style.display = 'block';
+          } else {
+            excalidrawContainer.style.display = 'none';
+            if (currentSlideIndex !== null) {
+              deck.slide(currentSlideIndex);
+            }
+          }
         }
       });
 
