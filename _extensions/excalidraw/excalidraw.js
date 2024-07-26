@@ -12,9 +12,6 @@ async function loadDependencies() {
   await loadScript("https://unpkg.com/react@18.2.0/umd/react.development.js");
   await loadScript("https://unpkg.com/react-dom@18.2.0/umd/react-dom.development.js");
   await loadScript("https://unpkg.com/@excalidraw/excalidraw/dist/excalidraw.development.js");
-  // await loadScript("./excalidraw/src/react.development.js");
-  // await loadScript("./excalidraw/src/react-dom.development.js");
-  // await loadScript("./excalidraw/src/excalidraw.development.js");
 }
 
 window.RevealExcalidraw = function () {
@@ -34,14 +31,6 @@ window.RevealExcalidraw = function () {
       const excalidrawContainer = document.createElement('div');
       excalidrawContainer.className = "drop-clip"
       excalidrawContainer.id = 'excalidraw-container';
-      excalidrawContainer.style.display = 'none';
-      excalidrawContainer.style.position = 'fixed';
-      excalidrawContainer.style.top = '0';
-      excalidrawContainer.style.left = '0';
-      excalidrawContainer.style.width = '100%';
-      excalidrawContainer.style.height = '100%';
-      excalidrawContainer.style.backgroundColor = 'white';
-      excalidrawContainer.style.zIndex = '1000';
       document.body.appendChild(excalidrawContainer);
 
       if (settings.button) {
@@ -54,11 +43,6 @@ window.RevealExcalidraw = function () {
         link.innerText = "🎨";
 
         toggleButton.appendChild(link);
-        toggleButton.style.position = 'absolute';
-        toggleButton.style.bottom = '10px';
-        toggleButton.style.left = '50%';
-        toggleButton.style.transform = 'translateX(-50%)';
-        toggleButton.style.zIndex = '1001'; 
         document.querySelector(".reveal").appendChild(toggleButton);
 
         link.addEventListener('click', (event) => {
@@ -86,7 +70,7 @@ window.RevealExcalidraw = function () {
             if (currentSlideIndex !== null) {
               setTimeout(() => {
                 deck.slide(currentSlideIndex);
-              }, 100); // Adjust the delay as needed
+              }, 100);
             }
           }
         }
