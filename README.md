@@ -1,6 +1,6 @@
 # Excalidraw Extension For Quarto
 
-Allows you to open up an empty [Excalidraw](https://excalidraw.com/) canvas within your RevealJS presentation. It is similar to the [built-in chalkboard plugin](https://quarto.org/docs/presentations/revealjs/presenting.html#chalkboard) in Quarto.
+Allows you to open up an empty [Excalidraw](https://github.com/excalidraw/excalidraw) canvas within your RevealJS presentation. Excalidraw is a virtual whiteboard for sketching hand-drawn like diagrams. It is similar to the [built-in chalkboard plugin](https://quarto.org/docs/presentations/revealjs/presenting.html#chalkboard) in Quarto.
 
 ## Installing
 
@@ -25,7 +25,7 @@ revealjs-plugins:
 
 Then all you have to do is click the 🎨 Artist Palette Emoji button to toggle the Excalidraw canvas. Excalidraw is running locally in your specfic slides. Click on it again to return to your slides.
 
-Alternatively, you can use the shortcut key to toggle the Excalidraw canvas. The default shortcut key is ``\` (backtick). 
+Alternatively, you can use the shortcut key to toggle the Excalidraw canvas. The default shortcut key is \` (backtick which is usually next to your 1 key). 
 
 ```yaml
 title: "Excalidraw Example"
