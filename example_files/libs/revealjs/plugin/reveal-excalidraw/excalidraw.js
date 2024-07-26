@@ -30,6 +30,7 @@ window.RevealExcalidraw = function () {
 
       const excalidrawContainer = document.createElement('div');
       excalidrawContainer.className = "drop-clip"
+      excalidrawContainer.style.display = 'none';
       excalidrawContainer.id = 'excalidraw-container';
       document.body.appendChild(excalidrawContainer);
 
