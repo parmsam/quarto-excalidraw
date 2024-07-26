@@ -64,12 +64,10 @@ window.RevealExcalidraw = function () {
         link.addEventListener('click', (event) => {
           event.preventDefault(); // Prevent default link behavior
           if (excalidrawContainer.style.display === 'none') {
-            // Store the current slide index
             currentSlideIndex = deck.getState().indexh;
             excalidrawContainer.style.display = 'block';
           } else {
             excalidrawContainer.style.display = 'none';
-            // Navigate back to the stored slide index
             if (currentSlideIndex !== null) {
               deck.slide(currentSlideIndex);
             }
@@ -78,9 +76,17 @@ window.RevealExcalidraw = function () {
       }
 
       document.addEventListener('keydown', (event) => {
+        event.preventDefault(); // Prevent default link behavior
         if (event.key === settings.shortcut) {
-          excalidrawContainer.style.display =
-            excalidrawContainer.style.display === 'none' ? 'block' : 'none';
+          if (excalidrawContainer.style.display === 'none') {
+            currentSlideIndex = deck.getState().indexh;
+            excalidrawContainer.style.display = 'block';
+          } else {
+            excalidrawContainer.style.display = 'none';
+            if (currentSlideIndex !== null) {
+              deck.slide(currentSlideIndex);
+            }
+          }
         }
       });
 
