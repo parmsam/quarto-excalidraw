@@ -1,0 +1,21 @@
+---
+title: "Excalidraw Example"
+format:
+  revealjs:
+    excalidraw: 
+      button: true
+      shortcut: "`"
+revealjs-plugins:
+  - excalidraw
+---
+
+## Using this plugin
+
+- Excalidraw is a whiteboard tool that lets you sketch diagrams and drawings.
+- This plugin adds a button to the toolbar that opens a local version of the Excalidraw editor specific to your slides.
+- Click the 🎨 (Artist Palette Emoji) button button to open the Excalidraw editor.
+
+## Keyboard shortcut
+
+- Alternatively, you can click the `\`` (backtick) button on your keyboard to toggle the Excalidraw editor.
+- See the [README.md](README.md) file to learn more.
