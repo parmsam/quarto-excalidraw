@@ -1,24 +1,7 @@
-function loadScript(src) {
-  return new Promise((resolve, reject) => {
-    var script = document.createElement("script");
-    script.src = src;
-    script.onload = resolve;
-    script.onerror = reject;
-    document.head.appendChild(script);
-  });
-}
-
-async function loadDependencies() {
-  await loadScript("https://unpkg.com/react@18.2.0/umd/react.development.js");
-  await loadScript("https://unpkg.com/react-dom@18.2.0/umd/react-dom.development.js");
-  await loadScript("https://unpkg.com/@excalidraw/excalidraw/dist/excalidraw.development.js");
-}
-
 window.RevealExcalidraw = function () {
   return {
     id: "RevealExcalidraw",
-    init: async function (deck) {
-      await loadDependencies();
+    init: function (deck) {
 
       const config = deck.getConfig();
       const options = config.excalidraw || {};
@@ -71,7 +54,7 @@ window.RevealExcalidraw = function () {
             if (currentSlideIndex !== null) {
               setTimeout(() => {
                 deck.slide(currentSlideIndex);
-              }, 100);
+              }, 10);
             }
           }
         }
