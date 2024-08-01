@@ -1,0 +1,99 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://parmsam.github.io",
+  "elements": [
+    {
+      "type": "rectangle",
+      "version": 48,
+      "versionNonce": 1101885591,
+      "isDeleted": false,
+      "id": "7ctXgy4-WQYOu_yCXWSMO",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 414,
+      "y": 160,
+      "strokeColor": "#f08c00",
+      "backgroundColor": "transparent",
+      "width": 140,
+      "height": 121,
+      "seed": 377434341,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 3
+      },
+      "boundElements": [],
+      "updated": 1722540437459,
+      "link": null,
+      "locked": false
+    },
+    {
+      "type": "ellipse",
+      "version": 142,
+      "versionNonce": 1177701175,
+      "isDeleted": false,
+      "id": "C1sFd5gD356WuHY0-J30U",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 568,
+      "y": 269,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "width": 150,
+      "height": 134,
+      "seed": 1411261253,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1722540439895,
+      "link": null,
+      "locked": false
+    },
+    {
+      "type": "diamond",
+      "version": 307,
+      "versionNonce": 2037558455,
+      "isDeleted": false,
+      "id": "zx7PTtHotl52jv0u5VYsY",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "angle": 0,
+      "x": 574,
+      "y": 87,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "width": 176.99999999999997,
+      "height": 154.00000000000003,
+      "seed": 927266469,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "boundElements": [],
+      "updated": 1722540436130,
+      "link": null,
+      "locked": false
+    }
+  ],
+  "appState": {
+    "gridSize": null,
+    "viewBackgroundColor": "#ffffff"
+  },
+  "files": {}
+}
