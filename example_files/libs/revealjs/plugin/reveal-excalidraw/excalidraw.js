@@ -76,7 +76,7 @@ window.RevealExcalidraw = function () {
       } else {
         templateData = null; 
       }
-      
+      console.log(templateData);
       const excalidrawOptions = {
         initialData: templateData,
         langCode: "en",
