@@ -5,9 +5,12 @@ format:
     excalidraw: 
       button: true
       shortcut: "`"
-      template: "template.excalidraw"
+      # template: ""
+      template: template.excalidraw
 revealjs-plugins:
   - excalidraw
+resources:
+  - template.excalidraw
 ---
 
 ## Using this plugin
