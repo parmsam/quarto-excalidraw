@@ -16,3 +16,10 @@ contributes:
         excalidraw:
           button: true
           shortcut: "`"
+          template: ""
+          langCode: "en"
+          viewModeEnabled: false
+          zenModeEnabled: false
+          gridModeEnabled: false
+          theme: "light"
+          autoFocus: false

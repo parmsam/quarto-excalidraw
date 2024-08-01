@@ -1,3 +1,11 @@
+const loadFromJSON = async (path) => {
+  if (!path.endsWith(".json") && !path.endsWith(".excalidraw")) {
+    throw new Error("Invalid file extension");
+  }
+  const response = await fetch(path);
+  return await response.json();
+}
+
 window.RevealExcalidraw = function () {
   return {
     id: "RevealExcalidraw",
@@ -10,6 +18,7 @@ window.RevealExcalidraw = function () {
       console.log(settings);
       settings.shortcut = options.shortcut || "`";
       settings.button = options.button || false;
+      settings.template = options.template || "";
 
       const excalidrawContainer = document.createElement('div');
       excalidrawContainer.className = "drop-clip"
@@ -60,6 +69,25 @@ window.RevealExcalidraw = function () {
         }
       });
 
+      const templatePath = settings.template
+      let templateData;
+      if (templatePath != "") {
+        templateData = loadFromJSON(templatePath)
+      } else {
+        templateData = null; 
+      }
+      
+      const excalidrawOptions = {
+        initialData: templateData,
+        langCode: "en",
+        viewModeEnabled: settings.viewModeEnabled,
+        zenModeEnabled: settings.zenModeEnabled,
+        gridModeEnabled: settings.gridModeEnabled,
+        theme: settings.theme,
+        autoFocus: settings.autoFocus,
+      };
+      console.log(excalidrawOptions);
+
       const App = () => {
         return React.createElement(
           React.Fragment,
@@ -69,7 +97,9 @@ window.RevealExcalidraw = function () {
             {
               style: { height: "100%", width: "100%" },
             },
-            React.createElement(ExcalidrawLib.Excalidraw),
+            React.createElement(ExcalidrawLib.Excalidraw,
+              excalidrawOptions,
+            ),
           ),
         );
       };
