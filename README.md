@@ -41,6 +41,27 @@ revealjs-plugins:
 
 You can change the shortcut key by specifying the `shortcut` option in the configuration. You can also disable the button by setting the `button` option to `false`.
 
+There are other options you can specify in the configuration such as a reference Excalidraw file (see [template.excalidraw](template.excalidraw) for an example) to load in. You can create your own reference file by saving an Excalidraw file and then specifying the file path in `template` option. Ideally the file should be in the same directory as your Qmd file. See [example.qmd](example.qmd) for an example of this in action.
+
+```yaml
+title: "Excalidraw Example"
+format:
+  excalidraw:
+    button: true
+    shortcut: "`"
+    template: "template.excalidraw"
+    langCode: "en"
+    viewModeEnabled: false
+    zenModeEnabled: false
+    gridModeEnabled: false
+    theme: "light"
+    autoFocus: false
+revealjs-plugins: 
+  - excalidraw
+```
+
+You can also specify the language code for the Excalidraw canvas, whether to enable view mode, zen mode, grid mode, and the theme. See the [Excalidraw documentation props page](https://docs.excalidraw.com/docs/@excalidraw/excalidraw/api/props/#onchange) for more information.
+
 ## Example
 
 Here is the source code for a minimal example: [example.qmd](example.qmd).
