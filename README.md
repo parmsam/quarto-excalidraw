@@ -62,7 +62,7 @@ resources:
   - template.excalidraw
 ```
 
-You can also specify the language code for the Excalidraw canvas, whether to enable view mode, zen mode, grid mode, and the theme. See the [Excalidraw documentation props page](https://docs.excalidraw.com/docs/@excalidraw/excalidraw/api/props/#onchange) for more information.
+You can also specify the language code for the Excalidraw canvas, whether to enable view mode, zen mode, grid mode, and the theme. See the [Excalidraw documentation props page](https://docs.excalidraw.com/docs/@excalidraw/excalidraw/api/props/) for more information.
 
 ## Example
 
@@ -71,3 +71,5 @@ Here is the source code for a minimal example: [example.qmd](example.qmd).
 ## Resources used 
 
 - https://docs.excalidraw.com/docs/@excalidraw/excalidraw/integration#browser
+- https://docs.excalidraw.com/docs/@excalidraw/excalidraw/api/props/
+- [Library to Prototype Shiny apps in Excalidraw](https://github.com/MikeJohnPage/shinydraw) from [MikeJohnPage](https://github.com/MikeJohnPage)
