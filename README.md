@@ -72,3 +72,4 @@ Here is the source code for a minimal example: [example.qmd](example.qmd).
 
 - https://docs.excalidraw.com/docs/@excalidraw/excalidraw/integration#browser
 - https://docs.excalidraw.com/docs/@excalidraw/excalidraw/api/props/
+- [Library to Prototype Shiny apps in Excalidraw](https://github.com/MikeJohnPage/shinydraw) from [MikeJohnPage](https://github.com/MikeJohnPage)
