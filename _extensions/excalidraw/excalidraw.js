@@ -1,5 +1,7 @@
 const loadFromJSON = async (path) => {
-  if (!path.endsWith(".json") && !path.endsWith(".excalidraw")) {
+  if (!path.endsWith(".json") &&
+    !path.endsWith(".excalidraw") &&
+    !path.endsWith(".excalidrawlib")) {
     throw new Error("Invalid file extension");
   }
   const response = await fetch(path);
@@ -19,6 +21,7 @@ window.RevealExcalidraw = function () {
       settings.shortcut = options.shortcut || "`";
       settings.button = options.button || false;
       settings.template = options.template || "";
+      settings.library = options.library || "";
 
       const excalidrawContainer = document.createElement('div');
       excalidrawContainer.className = "drop-clip"
@@ -69,16 +72,28 @@ window.RevealExcalidraw = function () {
         }
       });
 
-      const templatePath = settings.template
-      let templateData;
-      if (templatePath != "") {
-        templateData = loadFromJSON(templatePath)
-      } else {
-        templateData = null; 
+      const templatePath = settings.template;
+      const libraryPath = settings.library;
+
+      async function setupInitialData() {
+        let templateData = {};
+        if (templatePath !== "") {
+          templateData = await loadFromJSON(templatePath);
+        }
+        let libraryData = null;
+        if (libraryPath !== "") {
+          libraryData = await loadFromJSON(libraryPath);
+        }
+        if (libraryData) {
+          templateData.libraryItems = libraryData.libraryItems;
+        } else {
+          templateData.libraryItems = null;
+        }
+        return templateData;
       }
-      
+
       const excalidrawOptions = {
-        initialData: templateData,
+        initialData: setupInitialData(),
         langCode: "en",
         viewModeEnabled: settings.viewModeEnabled,
         zenModeEnabled: settings.zenModeEnabled,
@@ -86,8 +101,7 @@ window.RevealExcalidraw = function () {
         theme: settings.theme,
         autoFocus: settings.autoFocus,
       };
-      console.log(excalidrawOptions);
-
+      
       const App = () => {
         return React.createElement(
           React.Fragment,
@@ -103,9 +117,9 @@ window.RevealExcalidraw = function () {
           ),
         );
       };
-
       const root = ReactDOM.createRoot(excalidrawContainer);
       root.render(React.createElement(App));
+      
     },
   };
 };

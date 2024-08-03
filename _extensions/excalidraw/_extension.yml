@@ -17,6 +17,7 @@ contributes:
           button: true
           shortcut: "`"
           template: ""
+          library: ""
           langCode: "en"
           viewModeEnabled: false
           zenModeEnabled: false

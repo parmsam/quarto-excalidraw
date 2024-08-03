@@ -6,10 +6,12 @@ format:
       button: true
       shortcut: "`"
       template: template.excalidraw
+      library: library.excalidrawlib
 revealjs-plugins:
   - excalidraw
 resources:
   - template.excalidraw
+  - library.excalidrawlib
 ---
 
 ## Using this plugin
