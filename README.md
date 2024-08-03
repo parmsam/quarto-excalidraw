@@ -63,6 +63,7 @@ revealjs-plugins:
   - excalidraw
 resources:
   - template.excalidraw
+  - library.excalidrawlib
 ```
 
 You can also specify the language code for the Excalidraw canvas, whether to enable view mode, zen mode, grid mode, and the theme. See the [Excalidraw documentation props page](https://docs.excalidraw.com/docs/@excalidraw/excalidraw/api/props/) for more information.
