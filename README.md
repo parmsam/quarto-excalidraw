@@ -31,7 +31,6 @@ Alternatively, you can use the shortcut key to toggle the Excalidraw canvas. The
 title: "Excalidraw Example"
 format:
   revealjs:
-    chalkboard: true
       excalidraw:
         button: true
         shortcut: "`"
@@ -48,17 +47,18 @@ You can do that same with [Excalidraw library files](https://github.com/excalidr
 ```yaml
 title: "Excalidraw Example"
 format:
-  excalidraw:
-    button: true
-    shortcut: "`"
-    template: "template.excalidraw"
-    library: "library.excalidrawlib"
-    langCode: "en"
-    viewModeEnabled: false
-    zenModeEnabled: false
-    gridModeEnabled: false
-    theme: "light"
-    autoFocus: false
+  revealjs:
+      excalidraw:
+        button: true
+        shortcut: "`"
+        template: "template.excalidraw"
+        library: "library.excalidrawlib"
+        langCode: "en"
+        viewModeEnabled: false
+        zenModeEnabled: false
+        gridModeEnabled: false
+        theme: "light"
+        autoFocus: false
 revealjs-plugins: 
   - excalidraw
 resources:
