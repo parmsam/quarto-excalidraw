@@ -32,9 +32,9 @@ title: "Excalidraw Example"
 format:
   revealjs:
     chalkboard: true
-    excalidraw: 
-      button: true
-      shortcut: "`"
+      excalidraw:
+        button: true
+        shortcut: "`"
 revealjs-plugins:
   - excalidraw
 ```
