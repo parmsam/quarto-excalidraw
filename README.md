@@ -31,35 +31,39 @@ Alternatively, you can use the shortcut key to toggle the Excalidraw canvas. The
 title: "Excalidraw Example"
 format:
   revealjs:
-    chalkboard: true
-    excalidraw: 
-      button: true
-      shortcut: "`"
+      excalidraw:
+        button: true
+        shortcut: "`"
 revealjs-plugins:
   - excalidraw
 ```
 
 You can change the shortcut key by specifying the `shortcut` option in the configuration. You can also disable the button by setting the `button` option to `false`.
 
-There are other options you can specify in the configuration such as a reference Excalidraw file (see [template.excalidraw](template.excalidraw) for an example) to load in. You can create your own reference file by saving an Excalidraw file and then specifying the file path in `template` option. Ideally the file should be in the same directory as your Qmd file. Just be sure to include the file in the resources section of your YAML header. See [example.qmd](example.qmd) for an example of this in action. 
+There are other options you can specify in the configuration such as a reference Excalidraw file (see [template.excalidraw](template.excalidraw) for an example) to load in. You can create your own reference file by saving an Excalidraw file and then specifying the file path in `template` option. Ideally the file should be in the same directory as your Qmd file. Just be sure to include the file in the resources section of your YAML header. See [example.qmd](example.qmd) for an example of this in action.  
+
+You can do that same with [Excalidraw library files](https://github.com/excalidraw/excalidraw-libraries) like [Shinydraw](https://github.com/MikeJohnPage/shinydraw) using the `library` option.
 
 ```yaml
 title: "Excalidraw Example"
 format:
-  excalidraw:
-    button: true
-    shortcut: "`"
-    template: "template.excalidraw"
-    langCode: "en"
-    viewModeEnabled: false
-    zenModeEnabled: false
-    gridModeEnabled: false
-    theme: "light"
-    autoFocus: false
+  revealjs:
+      excalidraw:
+        button: true
+        shortcut: "`"
+        template: "template.excalidraw"
+        library: "library.excalidrawlib"
+        langCode: "en"
+        viewModeEnabled: false
+        zenModeEnabled: false
+        gridModeEnabled: false
+        theme: "light"
+        autoFocus: false
 revealjs-plugins: 
   - excalidraw
 resources:
   - template.excalidraw
+  - library.excalidrawlib
 ```
 
 You can also specify the language code for the Excalidraw canvas, whether to enable view mode, zen mode, grid mode, and the theme. See the [Excalidraw documentation props page](https://docs.excalidraw.com/docs/@excalidraw/excalidraw/api/props/) for more information.

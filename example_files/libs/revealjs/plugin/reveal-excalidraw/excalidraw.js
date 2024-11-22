@@ -66,7 +66,7 @@ window.RevealExcalidraw = function () {
             if (currentSlideIndex !== null) {
               setTimeout(() => {
                 deck.slide(currentSlideIndex);
-              }, 10);
+              }, 100);
             }
           }
         }
