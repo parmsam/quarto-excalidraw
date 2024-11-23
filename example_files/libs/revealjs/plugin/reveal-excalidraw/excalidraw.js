@@ -43,15 +43,9 @@ window.RevealExcalidraw = function () {
 
         link.addEventListener('click', (event) => {
           if (excalidrawContainer.style.display === 'none') {
-            currentSlideIndex = deck.getState().indexh;
             excalidrawContainer.style.display = 'block';
           } else {
             excalidrawContainer.style.display = 'none';
-            if (currentSlideIndex !== null) {
-              setTimeout(() => {
-                deck.slide(currentSlideIndex);
-              }, 100); 
-            }
           }
         });
       }
@@ -59,15 +53,9 @@ window.RevealExcalidraw = function () {
       document.addEventListener('keydown', (event) => {
         if (event.key === settings.shortcut) {
           if (excalidrawContainer.style.display === 'none') {
-            currentSlideIndex = deck.getState().indexh;
             excalidrawContainer.style.display = 'block';
           } else {
             excalidrawContainer.style.display = 'none';
-            if (currentSlideIndex !== null) {
-              setTimeout(() => {
-                deck.slide(currentSlideIndex);
-              }, 100);
-            }
           }
         }
       });
