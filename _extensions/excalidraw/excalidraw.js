@@ -43,19 +43,32 @@ window.RevealExcalidraw = function () {
 
         link.addEventListener('click', (event) => {
           if (excalidrawContainer.style.display === 'none') {
+            currentDeckState = deck.getState();
             excalidrawContainer.style.display = 'block';
           } else {
             excalidrawContainer.style.display = 'none';
+            if (currentDeckState !== null) {
+              setTimeout(() => {
+                deck.setState(currentDeckState);
+              }, 10); 
+            }
           }
         });
       }
 
-      document.addEventListener('keydown', (event) => {
+      document.body.addEventListener('keydown', (event) => {
         if (event.key === settings.shortcut) {
           if (excalidrawContainer.style.display === 'none') {
+            currentDeckState = deck.getState();
             excalidrawContainer.style.display = 'block';
           } else {
             excalidrawContainer.style.display = 'none';
+            if (currentDeckState !== null) {
+              console.log("testg1")
+              setTimeout(() => {
+                deck.setState(currentDeckState);
+              }, 10);
+            }
           }
         }
       });
