@@ -7,6 +7,12 @@ format:
       shortcut: "`"
       template: template.excalidraw
       library: library.excalidrawlib
+      langCode: "en"
+      viewModeEnabled: false
+      zenModeEnabled: true
+      gridModeEnabled: false
+      theme: "light"
+      autoFocus: false
 revealjs-plugins:
   - excalidraw
 resources:

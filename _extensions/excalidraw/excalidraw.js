@@ -17,11 +17,18 @@ window.RevealExcalidraw = function () {
       const options = config.excalidraw || {};
 
       var settings = {};
-      console.log(settings);
-      settings.shortcut = options.shortcut || "`";
       settings.button = options.button || false;
+      settings.shortcut = options.shortcut || "`";
       settings.template = options.template || "";
       settings.library = options.library || "";
+      
+      settings.langCode = options.langCode || "en";
+      settings.viewModeEnabled = options.viewModeEnabled || false;
+      settings.zenModeEnabled = options.zenModeEnabled || false;
+      settings.gridModeEnabled = options.gridModeEnabled || false;
+      settings.theme = options.theme || "light";
+      settings.autoFocus = options.autoFocus || false;
+      console.log(settings);
 
       const excalidrawContainer = document.createElement('div');
       excalidrawContainer.className = "drop-clip"
@@ -64,7 +71,6 @@ window.RevealExcalidraw = function () {
           } else {
             excalidrawContainer.style.display = 'none';
             if (currentDeckState !== null) {
-              console.log("testg1")
               setTimeout(() => {
                 deck.setState(currentDeckState);
               }, 10);
@@ -95,7 +101,7 @@ window.RevealExcalidraw = function () {
 
       const excalidrawOptions = {
         initialData: setupInitialData(),
-        langCode: "en",
+        langCode: settings.langCode,
         viewModeEnabled: settings.viewModeEnabled,
         zenModeEnabled: settings.zenModeEnabled,
         gridModeEnabled: settings.gridModeEnabled,
