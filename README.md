@@ -40,6 +40,19 @@ revealjs-plugins:
 
 You can change the shortcut key by specifying the `shortcut` option in the configuration. You can also disable the button by setting the `button` option to `false`.
 
+### Persistent Storage
+
+You can enable automatic saving and loading of your drawings by setting `useLocalStorage: true`. This will save your work as you draw and restore it when you return to the presentation, making it easy to recover where you left off even if you refresh the page or close the browser.
+
+```yaml
+format:
+  revealjs:
+      excalidraw:
+        useLocalStorage: true
+```
+
+### Templates and Libraries
+
 There are other options you can specify in the configuration such as a reference Excalidraw file (see [template.excalidraw](template.excalidraw) for an example) to load in. You can create your own reference file by saving an Excalidraw file and then specifying the file path in `template` option. Ideally the file should be in the same directory as your Qmd file. Just be sure to include the file in the resources section of your YAML header. See [example.qmd](example.qmd) for an example of this in action.  
 
 You can do that same with [Excalidraw library files](https://github.com/excalidraw/excalidraw-libraries) like [Shinydraw](https://github.com/MikeJohnPage/shinydraw) using the `library` option.
@@ -59,6 +72,7 @@ format:
         gridModeEnabled: false
         theme: "light"
         autoFocus: false
+        useLocalStorage: true
 revealjs-plugins: 
   - excalidraw
 resources:
@@ -67,6 +81,8 @@ resources:
 ```
 
 You can also specify the language code for the Excalidraw canvas, whether to enable view mode, zen mode, grid mode, and the theme. See the [Excalidraw documentation props page](https://docs.excalidraw.com/docs/@excalidraw/excalidraw/api/props/) for more information.
+
+The `useLocalStorage` option enables automatic saving and loading of your Excalidraw drawings using the browser's localStorage. When enabled, your work will be automatically saved as you draw and restored when you return to the presentation. This is particularly useful for recovering your work if you accidentally refresh the page or close the browser. The data is stored locally in your browser and is specific to each presentation (based on the URL path).
 
 ## Example
 

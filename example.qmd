@@ -13,6 +13,7 @@ format:
       gridModeEnabled: false
       theme: "light"
       autoFocus: false
+      useLocalStorage: true
 revealjs-plugins:
   - excalidraw
 resources:

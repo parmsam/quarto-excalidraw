@@ -21,6 +21,7 @@ window.RevealExcalidraw = function () {
       settings.shortcut = options.shortcut || "`";
       settings.template = options.template || "";
       settings.library = options.library || "";
+      settings.useLocalStorage = options.useLocalStorage || false;
       
       settings.langCode = options.langCode || "en";
       settings.viewModeEnabled = options.viewModeEnabled || false;
@@ -81,9 +82,34 @@ window.RevealExcalidraw = function () {
 
       const templatePath = settings.template;
       const libraryPath = settings.library;
+      const storageKey = `excalidraw-data-${window.location.pathname}`;
 
       async function setupInitialData() {
         let templateData = {};
+        
+        // First check if we should load from localStorage
+        if (settings.useLocalStorage) {
+          const savedData = localStorage.getItem(storageKey);
+          if (savedData) {
+            try {
+              const parsedData = JSON.parse(savedData);
+              console.log('Loaded Excalidraw data from localStorage');
+              
+              // Ensure appState has required properties
+              if (parsedData.appState) {
+                parsedData.appState.collaborators = parsedData.appState.collaborators || [];
+              } else {
+                parsedData.appState = { collaborators: [] };
+              }
+              
+              return parsedData;
+            } catch (error) {
+              console.warn('Failed to parse saved Excalidraw data, falling back to template:', error);
+            }
+          }
+        }
+        
+        // Fall back to template data if no localStorage or loading failed
         if (templatePath !== "") {
           templateData = await loadFromJSON(templatePath);
         }
@@ -96,6 +122,14 @@ window.RevealExcalidraw = function () {
         } else {
           templateData.libraryItems = null;
         }
+        
+        // Ensure appState has required properties for template data too
+        if (templateData.appState) {
+          templateData.appState.collaborators = templateData.appState.collaborators || [];
+        } else {
+          templateData.appState = { collaborators: [] };
+        }
+        
         return templateData;
       }
 
@@ -108,6 +142,29 @@ window.RevealExcalidraw = function () {
         theme: settings.theme,
         autoFocus: settings.autoFocus,
       };
+
+      // Add onChange handler if localStorage is enabled
+      if (settings.useLocalStorage) {
+        excalidrawOptions.onChange = (elements, appState, files) => {
+          // Ensure appState has required properties before saving
+          const sanitizedAppState = {
+            ...appState,
+            collaborators: appState.collaborators || []
+          };
+          
+          const dataToSave = {
+            elements: elements,
+            appState: sanitizedAppState,
+            files: files
+          };
+          try {
+            localStorage.setItem(storageKey, JSON.stringify(dataToSave));
+            console.log('Saved Excalidraw data to localStorage');
+          } catch (error) {
+            console.warn('Failed to save Excalidraw data to localStorage:', error);
+          }
+        };
+      }
       
       const App = () => {
         return React.createElement(
