@@ -36,6 +36,10 @@ window.RevealExcalidraw = function () {
       // Guards against the receiving window re-broadcasting an update it just applied.
       let isExternalUpdate = false;
 
+      // The upcoming-slide iframe in speaker view is loaded with controls=false.
+      // It should keep showing the next slide, not mirror the Excalidraw overlay.
+      const isUpcomingSlide = new URLSearchParams(window.location.search).get('controls') === 'false';
+
       // BroadcastChannel syncs the Excalidraw overlay between the main window and
       // the speaker-view iframe so drawings appear in the audience view in real time.
       const syncChannel = new BroadcastChannel(`excalidraw-sync-${window.location.pathname}`);
@@ -46,7 +50,7 @@ window.RevealExcalidraw = function () {
       excalidrawContainer.id = 'excalidraw-container';
       document.body.appendChild(excalidrawContainer);
 
-      function showExcalidraw(broadcast = true) {
+      function showExcalidraw(broadcast = !isUpcomingSlide) {
         currentDeckState = deck.getState();
         excalidrawContainer.style.display = 'block';
         // Excalidraw's React effects (resize observers, focus callbacks) fire
@@ -66,7 +70,7 @@ window.RevealExcalidraw = function () {
         }, 0);
       }
 
-      function hideExcalidraw(broadcast = true) {
+      function hideExcalidraw(broadcast = !isUpcomingSlide) {
         excalidrawContainer.style.display = 'none';
         if (currentDeckState !== null) {
           setTimeout(() => {
@@ -118,7 +122,9 @@ window.RevealExcalidraw = function () {
       // Mirror show/hide and element updates from another window (e.g. speaker
       // view iframe → main window). We skip deck.setState here because the
       // receiving window's navigation should not be affected.
+      // The upcoming-slide iframe opts out entirely — it should keep showing the next slide.
       syncChannel.onmessage = (event) => {
+        if (isUpcomingSlide) return;
         const { type, elements } = event.data;
         if (type === 'show') {
           excalidrawContainer.style.display = 'block';
@@ -203,7 +209,7 @@ window.RevealExcalidraw = function () {
             return;
           }
 
-          syncChannel.postMessage({ type: 'update', elements });
+          if (!isUpcomingSlide) syncChannel.postMessage({ type: 'update', elements });
 
           if (settings.useLocalStorage) {
             const sanitizedAppState = {
