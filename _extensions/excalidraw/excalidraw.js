@@ -22,7 +22,7 @@ window.RevealExcalidraw = function () {
       settings.template = options.template || "";
       settings.library = options.library || "";
       settings.useLocalStorage = options.useLocalStorage || false;
-      
+
       settings.langCode = options.langCode || "en";
       settings.viewModeEnabled = options.viewModeEnabled || false;
       settings.zenModeEnabled = options.zenModeEnabled || false;
@@ -32,6 +32,13 @@ window.RevealExcalidraw = function () {
       console.log(settings);
 
       let currentDeckState = null;
+      let excalidrawInstance = null;
+      // Guards against the receiving window re-broadcasting an update it just applied.
+      let isExternalUpdate = false;
+
+      // BroadcastChannel syncs the Excalidraw overlay between the main window and
+      // the speaker-view iframe so drawings appear in the audience view in real time.
+      const syncChannel = new BroadcastChannel(`excalidraw-sync-${window.location.pathname}`);
 
       const excalidrawContainer = document.createElement('div');
       excalidrawContainer.className = "drop-clip"
@@ -39,7 +46,7 @@ window.RevealExcalidraw = function () {
       excalidrawContainer.id = 'excalidraw-container';
       document.body.appendChild(excalidrawContainer);
 
-      function showExcalidraw() {
+      function showExcalidraw(broadcast = true) {
         currentDeckState = deck.getState();
         excalidrawContainer.style.display = 'block';
         // Excalidraw's React effects (resize observers, focus callbacks) fire
@@ -50,15 +57,24 @@ window.RevealExcalidraw = function () {
           if (currentDeckState !== null) {
             deck.setState(currentDeckState);
           }
+          if (broadcast) {
+            const elements = excalidrawInstance
+              ? excalidrawInstance.getSceneElements()
+              : [];
+            syncChannel.postMessage({ type: 'show', elements });
+          }
         }, 0);
       }
 
-      function hideExcalidraw() {
+      function hideExcalidraw(broadcast = true) {
         excalidrawContainer.style.display = 'none';
         if (currentDeckState !== null) {
           setTimeout(() => {
             deck.setState(currentDeckState);
           }, 10);
+        }
+        if (broadcast) {
+          syncChannel.postMessage({ type: 'hide' });
         }
       }
 
@@ -99,13 +115,32 @@ window.RevealExcalidraw = function () {
         }
       });
 
+      // Mirror show/hide and element updates from another window (e.g. speaker
+      // view iframe → main window). We skip deck.setState here because the
+      // receiving window's navigation should not be affected.
+      syncChannel.onmessage = (event) => {
+        const { type, elements } = event.data;
+        if (type === 'show') {
+          excalidrawContainer.style.display = 'block';
+          if (elements && elements.length > 0 && excalidrawInstance) {
+            isExternalUpdate = true;
+            excalidrawInstance.updateScene({ elements, commitToHistory: false });
+          }
+        } else if (type === 'hide') {
+          excalidrawContainer.style.display = 'none';
+        } else if (type === 'update' && excalidrawInstance && elements) {
+          isExternalUpdate = true;
+          excalidrawInstance.updateScene({ elements, commitToHistory: false });
+        }
+      };
+
       const templatePath = settings.template;
       const libraryPath = settings.library;
       const storageKey = `excalidraw-data-${window.location.pathname}`;
 
       async function setupInitialData() {
         let templateData = {};
-        
+
         // First check if we should load from localStorage
         if (settings.useLocalStorage) {
           const savedData = localStorage.getItem(storageKey);
@@ -113,21 +148,21 @@ window.RevealExcalidraw = function () {
             try {
               const parsedData = JSON.parse(savedData);
               console.log('Loaded Excalidraw data from localStorage');
-              
+
               // Ensure appState has required properties
               if (parsedData.appState) {
                 parsedData.appState.collaborators = parsedData.appState.collaborators || [];
               } else {
                 parsedData.appState = { collaborators: [] };
               }
-              
+
               return parsedData;
             } catch (error) {
               console.warn('Failed to parse saved Excalidraw data, falling back to template:', error);
             }
           }
         }
-        
+
         // Fall back to template data if no localStorage or loading failed
         if (templatePath !== "") {
           templateData = await loadFromJSON(templatePath);
@@ -141,14 +176,14 @@ window.RevealExcalidraw = function () {
         } else {
           templateData.libraryItems = null;
         }
-        
+
         // Ensure appState has required properties for template data too
         if (templateData.appState) {
           templateData.appState.collaborators = templateData.appState.collaborators || [];
         } else {
           templateData.appState = { collaborators: [] };
         }
-        
+
         return templateData;
       }
 
@@ -160,31 +195,32 @@ window.RevealExcalidraw = function () {
         gridModeEnabled: settings.gridModeEnabled,
         theme: settings.theme,
         autoFocus: settings.autoFocus,
+        excalidrawAPI: (api) => { excalidrawInstance = api; },
+        onChange: (elements, appState, files) => {
+          // Skip re-broadcasting updates that originated from another window.
+          if (isExternalUpdate) {
+            isExternalUpdate = false;
+            return;
+          }
+
+          syncChannel.postMessage({ type: 'update', elements });
+
+          if (settings.useLocalStorage) {
+            const sanitizedAppState = {
+              ...appState,
+              collaborators: appState.collaborators || []
+            };
+            const dataToSave = { elements, appState: sanitizedAppState, files };
+            try {
+              localStorage.setItem(storageKey, JSON.stringify(dataToSave));
+              console.log('Saved Excalidraw data to localStorage');
+            } catch (error) {
+              console.warn('Failed to save Excalidraw data to localStorage:', error);
+            }
+          }
+        },
       };
 
-      // Add onChange handler if localStorage is enabled
-      if (settings.useLocalStorage) {
-        excalidrawOptions.onChange = (elements, appState, files) => {
-          // Ensure appState has required properties before saving
-          const sanitizedAppState = {
-            ...appState,
-            collaborators: appState.collaborators || []
-          };
-          
-          const dataToSave = {
-            elements: elements,
-            appState: sanitizedAppState,
-            files: files
-          };
-          try {
-            localStorage.setItem(storageKey, JSON.stringify(dataToSave));
-            console.log('Saved Excalidraw data to localStorage');
-          } catch (error) {
-            console.warn('Failed to save Excalidraw data to localStorage:', error);
-          }
-        };
-      }
-      
       const App = () => {
         return React.createElement(
           React.Fragment,
@@ -202,7 +238,7 @@ window.RevealExcalidraw = function () {
       };
       const root = ReactDOM.createRoot(excalidrawContainer);
       root.render(React.createElement(App));
-      
+
     },
   };
 };
