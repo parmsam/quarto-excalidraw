@@ -31,11 +31,36 @@ window.RevealExcalidraw = function () {
       settings.autoFocus = options.autoFocus || false;
       console.log(settings);
 
+      let currentDeckState = null;
+
       const excalidrawContainer = document.createElement('div');
       excalidrawContainer.className = "drop-clip"
       excalidrawContainer.style.display = 'none';
       excalidrawContainer.id = 'excalidraw-container';
       document.body.appendChild(excalidrawContainer);
+
+      function showExcalidraw() {
+        currentDeckState = deck.getState();
+        excalidrawContainer.style.display = 'block';
+        // Excalidraw's React effects (resize observers, focus callbacks) fire
+        // asynchronously after becoming visible and can trigger Reveal.js to
+        // navigate to slide 0. Restoring state in the next task queue turn
+        // counteracts that jump without visible flicker.
+        setTimeout(() => {
+          if (currentDeckState !== null) {
+            deck.setState(currentDeckState);
+          }
+        }, 0);
+      }
+
+      function hideExcalidraw() {
+        excalidrawContainer.style.display = 'none';
+        if (currentDeckState !== null) {
+          setTimeout(() => {
+            deck.setState(currentDeckState);
+          }, 10);
+        }
+      }
 
       if (settings.button) {
         const toggleButton = document.createElement('div');
@@ -50,32 +75,26 @@ window.RevealExcalidraw = function () {
         document.querySelector(".reveal").appendChild(toggleButton);
 
         link.addEventListener('click', (event) => {
+          // Prevent href="#" from changing window.location.hash, which
+          // Reveal.js would interpret as navigation to slide 0.
+          event.preventDefault();
           if (excalidrawContainer.style.display === 'none') {
-            currentDeckState = deck.getState();
-            excalidrawContainer.style.display = 'block';
+            showExcalidraw();
           } else {
-            excalidrawContainer.style.display = 'none';
-            if (currentDeckState !== null) {
-              setTimeout(() => {
-                deck.setState(currentDeckState);
-              }, 10); 
-            }
+            hideExcalidraw();
           }
         });
       }
 
       document.body.addEventListener('keydown', (event) => {
         if (event.key === settings.shortcut) {
+          // Prevent default so the key doesn't trigger any browser or
+          // Reveal.js behaviour (e.g. unexpected navigation in speaker view).
+          event.preventDefault();
           if (excalidrawContainer.style.display === 'none') {
-            currentDeckState = deck.getState();
-            excalidrawContainer.style.display = 'block';
+            showExcalidraw();
           } else {
-            excalidrawContainer.style.display = 'none';
-            if (currentDeckState !== null) {
-              setTimeout(() => {
-                deck.setState(currentDeckState);
-              }, 10);
-            }
+            hideExcalidraw();
           }
         }
       });
